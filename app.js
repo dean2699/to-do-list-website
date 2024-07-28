@@ -36,4 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleTaskComplete() {
         this.classList.toggle('completed');
     }
+
+    function editTask() {
+        const currentText = this.firstChild.textContent;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = currentText;
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.firstChild.textContent = input.value;
+                this.removeChild(input);
+            }
+        });
+        this.insertBefore(input, this.firstChild);
+        input.focus();
+    }
 });
