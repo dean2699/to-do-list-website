@@ -22,7 +22,28 @@ describe('To-Do List App', () => {
 
     const tasks = document.querySelectorAll('#task-list li');
     expect(tasks.length).toBe(1);
-    expect(tasks[0].textContent).toContain('Test Task');
+    expect(tasks[0].childNodes[0].nodeValue).toContain('Test Task');
+  });
+
+  test('addTask adds a new task with category to the list', () => {
+    document.getElementById('new-task').value = 'Test Task';
+    document.getElementById('task-category').value = 'work';
+    addTask();
+
+    const tasks = document.querySelectorAll('#task-list li');
+    expect(tasks.length).toBe(1);
+    expect(tasks[0].childNodes[0].nodeValue).toContain('Test Task [work]');
+  });
+
+  test('addTask adds a new task with due date to the list', () => {
+    document.getElementById('new-task').value = 'Test Task';
+    document.getElementById('task-category').value = 'work';
+    document.getElementById('task-due-date').value = '2024-08-01';
+    addTask();
+
+    const tasks = document.querySelectorAll('#task-list li');
+    const taskTextContent = tasks[0].childNodes[0].nodeValue; // Only check the text node
+    expect(taskTextContent).toContain('Test Task [work] - 2024-08-01');
   });
 
   test('toggleTaskComplete toggles the completed class', () => {

@@ -1,35 +1,48 @@
 function addTask() {
-    const newTaskInput = document.getElementById('new-task');
-    const taskList = document.getElementById('task-list');
-    const taskCategory = document.getElementById('task-category');
+  const taskInput = document.getElementById('new-task');
+  const categoryInput = document.getElementById('task-category');
+  const dueDateInput = document.getElementById('task-due-date');
 
-    const taskText = newTaskInput.value.trim();
-    const category = taskCategory.value;
-    if (taskText !== '') {
-        const taskItem = document.createElement('li');
-        taskItem.textContent = `${taskText} [${category}]`;
-        taskItem.addEventListener('click', toggleTaskComplete);
-        taskItem.addEventListener('dblclick', editTask);
+  if (taskInput.value.trim() === '') {
+    return; // Do not add empty tasks
+  }
 
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.classList.add('delete-button');
-        deleteButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            taskList.removeChild(taskItem);
-        });
+  const taskText = taskInput.value.trim();
+  const category = categoryInput.value;
+  const dueDate = dueDateInput.value;
 
-        taskItem.appendChild(deleteButton);
-        taskList.appendChild(taskItem);
+  const taskItem = document.createElement('li');
+  const taskContent = `${taskText} [${category}] - ${dueDate}`;
 
-        newTaskInput.value = '';
-        newTaskInput.focus();
-    }
+  taskItem.appendChild(document.createTextNode(taskContent));
+
+  const editButton = document.createElement('button');
+  editButton.textContent = 'Edit';
+  editButton.onclick = function() {
+    editTask(taskItem, taskText, category, dueDate);
+  };
+
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = 'Delete';
+  deleteButton.onclick = function() {
+    taskItem.remove();
+  };
+
+  taskItem.appendChild(editButton);
+  taskItem.appendChild(deleteButton);
+
+  document.getElementById('task-list').appendChild(taskItem);
+
+  taskInput.value = '';
+  categoryInput.value = 'work';
+  dueDateInput.value = '';
 }
 
 function toggleTaskComplete() {
-    this.classList.toggle('completed');
+  this.classList.toggle('completed');
 }
+
+module.exports = { addTask, toggleTaskComplete };
 
 function editTask() {
     const currentText = this.firstChild.textContent;
@@ -58,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Export functions for testing
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { addTask, toggleTaskComplete, editTask };
 }
