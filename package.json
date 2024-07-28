@@ -1,0 +1,16 @@
+{
+  "name": "to-do-list-website",
+  "version": "1.0.0",
+  "description": "A To Do List Website to practice DOM Manipulation, Event Handling and Basic CRUD Operations using HTML, CSS, and JavaScript",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jsdom": "^24.1.1"
+  }
+}
